@@ -1,0 +1,47 @@
+import numpy as np 
+import pandas as pd
+
+def create_board():
+    board_size = 100
+    board = np.arange(board_size) + 1
+    # Snake-ladder configuration
+    board[14] = 7    # Snake from 15 to 8
+    board[35] = 22   # Snake from 36 to 23
+    board[96] = 67   # Snake from 97 to 68
+    board[4] = 14    # Ladder from 5 to 15
+    board[23] = 40   # Ladder from 24 to 41
+    board[60] = 82   # Ladder from 61 to 83
+
+    return board
+
+def move_player(player_position, dice_roll, board_size):
+    new_pos = player_position + dice_roll
+    if new_pos >= board_size:
+        return board_size
+    return new_pos
+
+def play_snake_ladder():
+    board = create_board()
+    board_size = len(board)
+
+    num_players = 2
+    player_position = [0] * num_players
+
+    while True:
+        for player_index in range(num_players):
+            player = player_index + 1
+
+            input(f"Player {player}, press Enter to roll the dice.")
+            dice_roll = np.random.randint(1, 7)
+
+            print(f"Player {player} has rolled a {dice_roll}")
+            player_position[player_index] = move_player(player_position[player_index], dice_roll, board_size)
+
+            print(f"Player {player} is now at position {player_position[player_index]}.")
+
+            if player_position[player_index] == board_size:
+                print(f"Congratulations! Player {player} wins!")
+                return
+
+if __name__ == "__main__":
+    play_snake_ladder()
